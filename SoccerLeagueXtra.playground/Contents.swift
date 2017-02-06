@@ -2,12 +2,16 @@
 
 import UIKit
 
+//: Playground - noun: a place where people can play
+
+import UIKit
+
 
 
 
 
 /*
- Created a code to manage soccer league data.  The code is divided into three sections:
+ Created a code to manage soccer league data.  The code is divided into four sections:
  
  SECTION #1: CREATE PLAYER DICTIONARY
  1) Declared empty variable named "players"
@@ -15,7 +19,9 @@ import UIKit
  3) Called the function createNewPlayerDict() to manually create a dictionary for each player
  4) Printed return value "players" which now contains all 18 player dictionaries
  
- SECTION #2: CREATE TEAMS
+ SECTION #2: ADDITIONAL DATA - STATS SECTION
+ 
+ SECTION #3: CREATE TEAMS
  1) Declared a function named createTeams().
  2) Called the function createTeams() and passed in "player" collection from Section #1.
  3) Printed return value "teamDragons", "teamSharks", and "teamRaptors"
@@ -23,7 +29,7 @@ import UIKit
  a) Printed return values for: "teamDragonRoster", "teamSharkRoster", and "teamRaptorRoster".
  b) Printed return values for: "aveHeightDragons", "aveHeightSharks", "aveHeightRaptors".=
  
- SECTION #3: CREATE LETTERS
+ SECTION #4: CREATE LETTERS
  1) Declared a variable named "letters".
  2) Declared a function createLetterForFirstPractice().
  3) Called the function createLetterForFirstPractice() three times and passed in a different team dictionary from the team dictionaries ("teamDragons", "teamSharks", and "teamRaptors") created in Section #2.
@@ -39,7 +45,7 @@ import UIKit
 var players = [[String:String]]()
 
 // Declare function createNewPlayerDict().
-func createNewPlayerDict(name: String, height: String, hasSoccerExperience: String, guardianName: String, team: String = "TBD") -> ( [[String:String]]) {
+func createNewPlayerDict(name: String, height: String, hasSoccerExperience: String, guardianName: String) -> ( [[String:String]]) {
     
     
     let dict = ["name": name, "height": height, "hasSoccerExperience": hasSoccerExperience, "guardianName": guardianName]
@@ -74,16 +80,36 @@ for player in players{
     print(players)
 }
 
+// SECTION #2: ADDITIONAL DATA - STATS SECTION
 
 
 
+var totalNumberOfExperiencedPlayersStat = 0
 
-//  SECTION #2: CREATE TEAMS
+
+
+for player in players {
+    guard let experiencedPlayer = player["hasSoccerExperience"] else{
+        break
+    }
+    if experiencedPlayer == "YES"{
+        totalNumberOfExperiencedPlayersStat += 1
+    }
+}
+totalNumberOfExperiencedPlayersStat
+let teams = ["teamDragons", "teamSharks", "teamRaptors"]
+let totalNumberOfPlayersStat = players.count
+let totalNumberOfExperiencedPlayersPerTeamStat = (totalNumberOfPlayersStat - totalNumberOfExperiencedPlayersStat) / teams.count
+let totalNumberOfInExperiencedPlayersStat = totalNumberOfPlayersStat - totalNumberOfExperiencedPlayersStat
+let totalNumberOfInExperiencedPlayersPerTeamStat = (totalNumberOfPlayersStat - totalNumberOfInExperiencedPlayersStat)/teams.count
+
+
+//  SECTION #3: CREATE TEAMS
 
 
 
 // Declare a function createTeams()
-func createTeams(from dict: [[String:String]]) -> ( teamDragons: [[String:String]], teamSharks: [[String:String]], teamRaptors: [[String:String]], teamDragonRoster: [String], teamSharkRoster: [String], teamRaptorRoster:[String], aveHeightDragons: Double, aveHeightSharks: Double, aveHeightRaptors: Double) {
+func createTeams(from dict: [[String:String]]) -> ( teamDragons: [[String:String]], teamSharks: [[String:String]], teamRaptors: [[String:String]], teamDragonRoster: [String], teamSharkRoster: [String], teamRaptorRoster:[String]) {
     
     
     // Team Variables:
@@ -96,47 +122,38 @@ func createTeams(from dict: [[String:String]]) -> ( teamDragons: [[String:String
     var teamSharkRoster = [String]()
     var teamRaptorRoster = [String]()
     
-    // Team Height Variables:
-    var sumOfHeightsTeamDragon = 0.0
-    var sumOfHeightsTeamSharks = 0.0
-    var sumOfHeightsTeamRaptors = 0.0
     
-    var heightsTeamDragon:[Int]
-    var heightsTeamSharks: [Int]
-    var heightTeamRaptors: [Int]
-    
-    //var aveHeightTeamDragon: Double = sumOfHeightsTeamDragon/Double(heightsTeamDragon.count)
-    // var aveHeightTeamSharks: Double = sumOfHeightsTeamSharks/Double(heightsTeamSharks.count)
-    //var aveHeightTeamRaptors: Double = sumOfHeightsTeamRaptors/Double(heightTeamRaptors.count)
-    
-    var aveHeightSharks = 0.0
-    var aveHeightRaptors = 0.0
-    var aveHeightDragons = 0.0
     
     
     for player in dict {
         
         
         // Unwrap dictionary keys.
-        guard let hasSoccerExperience  = player["hasSoccerExperience"], let name  = player["name"], let height = Double(player["height"]!) else {
+        guard let hasSoccerExperience  = player["hasSoccerExperience"], let name  = player["name"] else {
             
             break
         }
         
         // Assign players to a team with experience
-        if (hasSoccerExperience == "YES") && (teamDragons.count - teamSharks.count == 0) && (teamDragons.count - teamRaptors.count == 0) && height > 1.5 {
+        
+        
+      
+        // Section #2 has the calculations that are used for totalNumberOfExperiencedPlayersStat
+        if (hasSoccerExperience == "YES") &&  (teamDragons.count - teamSharks.count == 0) && (teamDragons.count - teamRaptors.count == 0) &&  teamDragons.count <= totalNumberOfExperiencedPlayersPerTeamStat + totalNumberOfInExperiencedPlayersPerTeamStat  {
             
-            teamDragons.append(player)
+            
+            
+              teamDragons.append(player)
             teamDragonRoster.append(name)
-            //heightsTeamDragon.append(doubleHeight)
-            //sumOfHeightsTeamDragon += Int(heights)
-            aveHeightSharks += height
-        }else if hasSoccerExperience == "YES" && teamSharks.count - teamRaptors.count == 0 {
+            
+            
+            
+        }else if hasSoccerExperience == "YES"   && teamSharks.count - teamRaptors.count == 0 && teamSharks.count <= totalNumberOfExperiencedPlayersPerTeamStat + totalNumberOfInExperiencedPlayersPerTeamStat {
             teamSharks.append(player)
             teamSharkRoster.append(name)
             
             
-        }else if hasSoccerExperience == "YES"  {
+        }else if hasSoccerExperience == "YES"   && teamDragons.count - teamSharks.count == 0 && teamRaptors.count <= totalNumberOfExperiencedPlayersPerTeamStat + totalNumberOfInExperiencedPlayersPerTeamStat {
             teamRaptors.append(player)
             teamRaptorRoster.append(name)
             
@@ -144,54 +161,58 @@ func createTeams(from dict: [[String:String]]) -> ( teamDragons: [[String:String
         
         
         // Assign players to a team with no experience
-        if hasSoccerExperience == "NO" && teamDragons.count - teamSharks.count == 0 && teamDragons.count - teamRaptors.count == 0 {
+        if hasSoccerExperience == "NO" && teamDragons.count - teamSharks.count == 0 && teamDragons.count - teamRaptors.count == 0 && teamDragons.count <= totalNumberOfInExperiencedPlayersPerTeamStat + totalNumberOfExperiencedPlayersPerTeamStat  {
             teamDragons.append(player)
             teamDragonRoster.append(name)
-        }else if hasSoccerExperience == "NO" && teamSharks.count - teamRaptors.count == 0 {
+            
+            
+        }else if hasSoccerExperience == "NO" && teamSharks.count - teamRaptors.count == 0 && teamSharks.count <= totalNumberOfInExperiencedPlayersPerTeamStat + totalNumberOfExperiencedPlayersPerTeamStat  {
             teamSharks.append(player)
             teamSharkRoster.append(name)
             
-        }else if hasSoccerExperience == "NO" {
+            
+        } else if hasSoccerExperience == "NO" && teamDragons.count - teamSharks.count == 0 && teamRaptors.count <= totalNumberOfInExperiencedPlayersPerTeamStat + totalNumberOfExperiencedPlayersPerTeamStat  {
             teamRaptors.append(player)
             teamRaptorRoster.append(name)
+            
         }
+        
+        
+        
         
     }
     
-    return (teamDragons, teamSharks, teamRaptors, teamDragonRoster, teamSharkRoster, teamRaptorRoster, aveHeightDragons, aveHeightRaptors, aveHeightSharks)
+    return (teamDragons, teamSharks, teamRaptors, teamDragonRoster, teamSharkRoster, teamRaptorRoster)
     
 }
 
 
 
 // Call the function createTeams() and pass in "player" collection from Section #1.
-let team = createTeams(from: players)
+let teamPlayerDict = createTeams(from: players)
 
 // Store return values from function createTeams() to create a team dictionary for each team.
-let teamDragons = team.teamDragons
-let teamRaptors = team.teamRaptors
-let teamSharks = team.teamSharks
+let teamDragons = teamPlayerDict.teamDragons
+let teamRaptors = teamPlayerDict.teamRaptors
+let teamSharks = teamPlayerDict.teamSharks
 
 
 // Store return values from function createTeams() to create a roster for each team.
-let teamDragonRosters = team.teamDragonRoster
-let teamRaptorRosters = team.teamRaptorRoster
-let teamSharkRosters = team.teamSharkRoster
+let teamDragonRosters = teamPlayerDict.teamDragonRoster
+let teamRaptorRosters = teamPlayerDict.teamRaptorRoster
+let teamSharkRosters = teamPlayerDict.teamSharkRoster
 
 
 
 
 
-// SECTION #3: CREATE LETTERS
+// SECTION #4: CREATE LETTERS
 
 
 // Declare a variable named "letters".
 var letters = [String]()
 
-// Store each team name in a separate variable to pass into the function createLetterForFirstPractice().
-let teamShark = "Sharks"
-let teamDragon = "Dragons"
-let teamRaptor = "Raptors"
+
 
 
 // Store practice time in separate variable to pass into the function createLetterForFirstPractice().
@@ -202,7 +223,7 @@ let teamSharksStartDate = "March 18 at 1:00 PM"
 
 
 // Declare a function createLetterForFirstPractice()
-func createLetterForFirstPractice(on practiceTime: String, with teamName: String , for team: [[String:String]]) -> (sharksLetters: [String], raptorsLetters: [String], dragonsLetters: [String]){
+func createLetterForFirstPractice(on practiceTime: String, with teamName: String , for team: [[String:String]]) ->  [String]{
     var firstLetter = String()
     var teamDragonLetters = [String]()
     var teamRaptorLetters = [String]()
@@ -219,41 +240,43 @@ func createLetterForFirstPractice(on practiceTime: String, with teamName: String
         }
         
         
-        firstLetter = "Welcome \(guardian),  we are so excited that \(name) is becoming a part of the \"\(teamName)\".  Please join us on \(practiceTime) for the first practice of the season!"
+        firstLetter = "Welcome \(guardian),  we are so excited that \(name) is becoming a part of the \(teamName).  Please join us on \(practiceTime) for the first practice of the season!"
         
         letters.append(firstLetter)
         
         // Store letters separately for each team:
-        if teamName == teamShark {
+     
+        if teamName == "Sharks" {
             teamSharkLetters.append(firstLetter)
             
-        }else if teamName == teamDragon{
+        }else if teamName == "Dragons"{
             teamDragonLetters.append(firstLetter)
-        }else if teamName == teamRaptor{
+        }else if teamName == "Raptors"{
             teamRaptorLetters.append(firstLetter)
             
         }
         
     }
-    return (teamSharkLetters, teamRaptorLetters, teamDragonLetters)
+    return (letters)
 }
 
 
 
 //Call function createLetterForFirstPractice() and pass in practice time variable "teamDragonsStartDate", team name variable "teamDragon" and team dictionary "teamDragons". Repeat function call for each team.
-let teamDragonLetterForFirstPractice = createLetterForFirstPractice(on: teamDragonsStartDate , with: teamDragon, for: teamDragons)
+let teamDragonLetterForFirstPractice = createLetterForFirstPractice(on: teamDragonsStartDate , with: "Dragons", for: teamDragons)
 
 
-let teamRaptorLetterForFirstPractice = createLetterForFirstPractice(on: teamRaptorsStartDate, with: teamRaptor, for: teamRaptors)
+
+let teamRaptorLetterForFirstPractice = createLetterForFirstPractice(on: teamRaptorsStartDate, with: "Raptors", for: teamRaptors)
 
 
-let teamSharkLetterForFirstPractice = createLetterForFirstPractice(on: teamSharksStartDate, with: teamShark, for: teamSharks)
+let teamSharkLetterForFirstPractice = createLetterForFirstPractice(on: teamSharksStartDate, with: "Sharks", for: teamSharks)
 
 // Print "letters"
 for letter in letters{
     print(letter)
 }
 letters.count
+print(letters)
 
 
- 

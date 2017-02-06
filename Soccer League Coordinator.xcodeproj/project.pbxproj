@@ -15,7 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9218DC4B1E485A7D00F132FA /* soccer league coord.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "soccer league coord.playground"; sourceTree = "<group>"; };
+		9218DC4D1E4883E800F132FA /* SoccerLeagueXtra.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = SoccerLeagueXtra.playground; sourceTree = "<group>"; };
 		92209B3E1E4475A900639A97 /* Soccer League Coordinator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Soccer League Coordinator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		92209B411E4475A900639A97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		92209B431E4475A900639A97 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -39,7 +39,7 @@
 		92209B351E4475A800639A97 = {
 			isa = PBXGroup;
 			children = (
-				9218DC4B1E485A7D00F132FA /* soccer league coord.playground */,
+				9218DC4D1E4883E800F132FA /* SoccerLeagueXtra.playground */,
 				92209B401E4475A900639A97 /* Soccer League Coordinator */,
 				92209B3F1E4475A900639A97 /* Products */,
 			);
